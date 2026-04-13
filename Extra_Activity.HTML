@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Statistics Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --navy:#1a2a4a;
+    --navy-light:#243656;
+    --gold:#c9a84c;
+    --gold-light:#f0d080;
+    --white:#ffffff;
+    --gray:#f4f6f9;
+    --text:#2d3748;
+    --subtext:#5a6a7e;
+  }
+  body{font-family:'Inter',sans-serif;color:var(--text);background:var(--white);}
+
+  /* NAV */
+  nav{background:var(--navy);padding:14px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2);}
+  .nav-logo{color:var(--gold);font-weight:700;font-size:1rem;letter-spacing:0.5px;}
+  .nav-links a{color:#cbd5e0;text-decoration:none;margin-left:24px;font-size:0.85rem;font-weight:500;transition:color 0.2s;cursor:pointer;}
+  .nav-links a:hover{color:var(--gold);}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 60%,#1e3a5f 100%);color:var(--white);padding:90px 40px 70px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;border-radius:50%;background:rgba(201,168,76,0.07);pointer-events:none;}
+  .hero::after{content:'';position:absolute;bottom:-80px;left:-40px;width:240px;height:240px;border-radius:50%;background:rgba(201,168,76,0.05);pointer-events:none;}
+  .hero-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid var(--gold);color:var(--gold);padding:6px 18px;border-radius:20px;font-size:0.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:22px;}
+  .hero h1{font-size:2.6rem;font-weight:700;margin-bottom:10px;line-height:1.2;}
+  .hero h1 span{color:var(--gold);}
+  .hero-sub{font-size:1rem;color:#a0b0c8;margin-bottom:6px;}
+  .hero-name{font-size:1.15rem;color:#cbd5e0;font-weight:500;margin-bottom:30px;}
+  .hero-divider{width:60px;height:3px;background:var(--gold);margin:0 auto 30px;border-radius:2px;}
+  .hero-desc{max-width:680px;margin:0 auto;color:#b0c0d5;font-size:0.95rem;line-height:1.8;}
+
+  /* SECTIONS */
+  section{padding:70px 40px;}
+  .section-inner{max-width:1000px;margin:0 auto;}
+  .section-label{color:var(--gold);font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+  .section-title{font-size:1.7rem;font-weight:700;color:var(--navy);margin-bottom:12px;}
+  .section-divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin-bottom:28px;}
+  .section-desc{color:var(--subtext);font-size:0.95rem;line-height:1.8;max-width:720px;}
+
+  /* ABOUT COURSE */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px;}
+  .about-card{background:var(--gray);border-radius:10px;padding:24px;border-left:4px solid var(--gold);}
+  .about-card h4{color:var(--navy);font-size:0.9rem;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;}
+  .about-card p{color:var(--subtext);font-size:0.88rem;line-height:1.7;}
+
+  /* DATASET */
+  .dataset-section{background:var(--gray);}
+  .dataset-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:32px 0;}
+  .meta-card{background:var(--white);border-radius:10px;padding:20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+  .meta-card .num{font-size:1.6rem;font-weight:700;color:var(--navy);}
+  .meta-card .lbl{font-size:0.78rem;color:var(--subtext);margin-top:4px;font-weight:500;}
+  .source-box{background:var(--white);border-radius:10px;padding:18px 24px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+  .source-icon{width:40px;height:40px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .source-icon svg{width:20px;height:20px;fill:var(--gold);}
+  .source-box p{font-size:0.85rem;color:var(--subtext);}
+  .source-box a{color:var(--navy);font-weight:600;font-size:0.9rem;text-decoration:none;}
+  .source-box a:hover{color:var(--gold);}
+
+  /* VARIABLE ANALYSIS */
+  table{width:100%;border-collapse:collapse;margin-top:28px;font-size:0.875rem;box-shadow:0 2px 12px rgba(0,0,0,0.07);border-radius:10px;overflow:hidden;}
+  thead{background:var(--navy);color:var(--white);}
+  thead th{padding:14px 16px;text-align:left;font-weight:600;font-size:0.82rem;letter-spacing:0.5px;}
+  tbody tr{border-bottom:1px solid #e8edf3;}
+  tbody tr:last-child{border-bottom:none;}
+  tbody tr:nth-child(even){background:#f9fbfd;}
+  tbody td{padding:13px 16px;color:var(--text);line-height:1.5;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:600;}
+  .badge-cat{background:#e8f0fe;color:#3a5bd9;}
+  .badge-num{background:#e6f4ea;color:#2d7a3a;}
+  .badge-disc{background:#fef3e2;color:#b06000;}
+  .badge-cont{background:#fce8f3;color:#9c2a6e;}
+
+  /* VISUALIZATIONS */
+  .viz-section{background:var(--gray);}
+  .viz-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;}
+  .viz-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.07);transition:transform 0.2s,box-shadow 0.2s;}
+  .viz-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+  .viz-placeholder{height:170px;background:linear-gradient(135deg,#eef1f7,#dde4f0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+  .viz-placeholder svg{opacity:0.3;}
+  .viz-placeholder span{font-size:0.78rem;color:var(--subtext);opacity:0.7;}
+  .viz-body{padding:18px 20px;}
+  .viz-type{font-size:0.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .viz-title{font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:8px;}
+  .viz-reason{font-size:0.82rem;color:var(--subtext);line-height:1.6;margin-bottom:8px;}
+  .viz-interp{font-size:0.82rem;color:var(--text);line-height:1.6;border-top:1px solid #eee;padding-top:10px;margin-top:4px;}
+  .viz-interp strong{color:var(--navy);}
+
+  /* DATA LINKS */
+  .links-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px;}
+  .link-card{background:var(--white);border:1px solid #dde4f0;border-radius:12px;padding:24px;display:flex;align-items:flex-start;gap:16px;transition:border-color 0.2s,box-shadow 0.2s;}
+  .link-card:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(201,168,76,0.15);}
+  .link-icon{width:44px;height:44px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .link-icon svg{width:22px;height:22px;fill:var(--gold);}
+  .link-card h4{font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .link-card p{font-size:0.82rem;color:var(--subtext);margin-bottom:10px;}
+  .link-card a{font-size:0.82rem;font-weight:600;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:5px 14px;border-radius:6px;display:inline-block;transition:background 0.2s,color 0.2s;}
+  .link-card a:hover{background:var(--gold);color:var(--navy);}
+
+  /* FOOTER */
+  footer{background:var(--navy);color:#7a8fa8;text-align:center;padding:28px 40px;font-size:0.82rem;}
+  footer span{color:var(--gold);font-weight:600;}
+
+  @media(max-width:700px){
+    .about-grid,.dataset-meta,.viz-grid,.links-grid{grid-template-columns:1fr;}
+    .dataset-meta{grid-template-columns:1fr 1fr;}
+    .hero h1{font-size:1.8rem;}
+    nav{padding:14px 20px;}
+    section{padding:50px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">📊 Statistics 1 Portfolio</div>
+  <div class="nav-links">
+    <a onclick="document.getElementById('course').scrollIntoView({behavior:'smooth'})">Course</a>
+    <a onclick="document.getElementById('dataset').scrollIntoView({behavior:'smooth'})">Dataset</a>
+    <a onclick="document.getElementById('variables').scrollIntoView({behavior:'smooth'})">Variables</a>
+    <a onclick="document.getElementById('viz').scrollIntoView({behavior:'smooth'})">Visualizations</a>
+    <a onclick="document.getElementById('activity3').scrollIntoView({behavior:'smooth'})">Activity 3</a>
+    <a onclick="document.getElementById('activity5').scrollIntoView({behavior:'smooth'})">Activity 5</a>
+    <a onclick="document.getElementById('links').scrollIntoView({behavior:'smooth'})">Data Links</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">IIT Madras · BS Program · Term 2</div>
+  <h1>Statistics 1<br><span>Student Portfolio</span></h1>
+  <div class="hero-sub">Statistics 1 · Term 1 · IIT Madras BS Program</div>
+  <div class="hero-name">Neel Halani</div>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">
+    This portfolio documents all course activities and statistical analyses undertaken as part of the
+    Statistics 1 course in Term 1 of the IIT Madras BS in Data Science &amp; Applications program.
+    It covers dataset exploration, variable classification, data visualization, and statistical analysis
+    of the IPL Ball-by-Ball Dataset.
+  </p>
+</section>
+
+<!-- ABOUT COURSE -->
+<section id="course">
+  <div class="section-inner">
+    <div class="section-label">Activity 1</div>
+    <div class="section-title">About the Course</div>
+    <div class="section-divider"></div>
+    <p class="section-desc">
+      Statistics 1 is a foundational course in the IIT Madras BS in Data Science &amp; Applications program.
+      It introduces students to the core principles of descriptive and inferential statistics, enabling
+      data-driven thinking essential for modern data science and AI applications.
+    </p>
+    <div class="about-grid">
+      <div class="about-card">
+        <h4>What You Learn</h4>
+        <p>Types of data and variables, scales of measurement, descriptive statistics, probability theory, distributions, hypothesis testing, and exploratory data analysis techniques.</p>
+      </div>
+      <div class="about-card">
+        <h4>Why It Matters</h4>
+        <p>Statistical thinking is the backbone of data science. Understanding how to summarize, visualize, and interpret data is a prerequisite for building reliable machine learning models and AI systems.</p>
+      </div>
+      <div class="about-card">
+        <h4>Key Topics Covered</h4>
+        <p>Categorical &amp; numerical variables · Scales of measurement · Measures of central tendency &amp; dispersion · Probability &amp; Bayes' theorem · Sampling &amp; estimation</p>
+      </div>
+      <div class="about-card">
+        <h4>Program Context</h4>
+        <p>Part of the IIT Madras BS in Data Science &amp; Applications — a fully online, globally recognized program combining rigorous academics with practical, project-based learning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATASET -->
+<section id="dataset" class="dataset-section">
+  <div class="section-inner">
+    <div class="section-label">Activity 2.1 &amp; 2.2</div>
+    <div class="section-title">About the Dataset</div>
+    <div class="section-divider"></div>
+    <p class="section-desc">
+      The <strong>IPL Ball-by-Ball Dataset</strong> was selected for its rich mix of categorical and numerical variables,
+      large volume, and real-world sports relevance. It records every delivery bowled across IPL seasons,
+      making it ideal for statistical exploration.
+    </p>
+    <div class="dataset-meta">
+      <div class="meta-card"><div class="num">1,93,000+</div><div class="lbl">Rows (Deliveries)</div></div>
+      <div class="meta-card"><div class="num">17</div><div class="lbl">Columns</div></div>
+      <div class="meta-card"><div class="num">5+</div><div class="lbl">Categorical Variables</div></div>
+      <div class="meta-card"><div class="num">8+</div><div class="lbl">Numerical Variables</div></div>
+    </div>
+    <div class="source-box">
+      <div class="source-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+      </div>
+      <div>
+        <a href="https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020" target="_blank">IPL Complete Dataset — Kaggle</a>
+        <p>Source: Kaggle · Public Dataset · Suitable for academic use · Data transferred to Google Spreadsheet as per Activity 2.2</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VARIABLE ANALYSIS -->
+<section id="variables">
+  <div class="section-inner">
+    <div class="section-label">Activity 2 — Task 1</div>
+    <div class="section-title">Variable Analysis</div>
+    <div class="section-divider"></div>
+    <p class="section-desc">
+      Each variable in the dataset is classified by its type, scale of measurement, and whether it is discrete or continuous —
+      along with the reasoning behind each classification.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Type</th>
+          <th>Scale</th>
+          <th>Discrete / Continuous</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>match_id</strong></td>
+          <td><span class="badge badge-num">Numerical</span></td>
+          <td>Nominal</td>
+          <td><span class="badge badge-disc">Discrete</span></td>
+          <td>An identifier — no arithmetic meaning; only distinguishes matches.</td>
+        </tr>
+        <tr>
+          <td><strong>inning</strong></td>
+          <td><span class="badge badge-num">Numerical</span></td>
+          <td>Ordinal</td>
+          <td><span class="badge badge-disc">Discrete</span></td>
+          <td>Takes values 1 or 2; order matters (1st innings before 2nd), but difference is not meaningful.</td>
+        </tr>
+        <tr>
+          <td><strong>batting_team</strong></td>
+          <td><span class="badge badge-cat">Categorical</span></td>
+          <td>Nominal</td>
+          <td>—</td>
+          <td>Team names are labels with no natural order or numerical value.</td>
+        </tr>
+        <tr>
+          <td><strong>bowling_team</strong></td>
+          <td><span class="badge badge-cat">Categorical</span></td>
+          <td>Nominal</td>
+          <td>—</td>
+          <td>Same as batting_team — nominal labels with no ordering.</td>
+        </tr>
+        <tr>
+          <td><strong>over</strong></td>
+          <td><span class="badge badge-num">Numerical</span></td>
+          <td>Interval</td>
+          <td><span class="badge badge-disc">Discrete</span></td>
+          <td>Takes integer values 1–20; differences are meaningful (over 10 is 5 overs after over 5).</td>
+        </tr>
+        <tr>
+          <td><strong>ball</strong></td>
+          <td><span class="badge badge-num">Numerical</span></td>
+          <td>Ratio</td>
+          <td><span class="badge badge-disc">Discrete</span></td>
+          <td>Ball number within an over; has a true zero (before first ball), and ratios are meaningful.</td>
+        </tr>
+        <tr>
+          <td><strong>batsman</strong></td>
+          <td><span class="badge badge-cat">Categorical</span></td>
+          <td>Nominal</td>
+          <td>—</td>
+          <td>Player names are nominal labels — no order or numerical property.</td>
+        </tr>
+        <tr>
+          <td><strong>bowler</strong></td>
+          <td><span class="badge badge-cat">Categorical</span></td>
+          <td>Nominal</td>
+          <td>—</td>
+          <td>Same as batsman — names serve as identifiers without rank.</td>
+        </tr>
+        <tr>
+          <td><strong>batsman_runs</strong></td>
+          <td><span class="badge badge-num">Numerical</span></td>
+          <td>Ratio</td>
+          <td><span class="badge badge-disc">Discrete</span></td>
+          <td>Runs scored off a delivery; true zero exists (dot ball = 0 runs); counting variable.</td>
+        </tr>
+        <tr>
+          <td><strong>extra_runs</strong></td>
+          <td><span class="badge badge-num">Numerical</span></td>
+          <td>Ratio</td>
+          <td><span class="badge badge-disc">Discrete</span></td>
+          <td>Extra runs (wides, no-balls); starts at 0, counted in whole numbers.</td>
+        </tr>
+        <tr>
+          <td><strong>total_runs</strong></td>
+          <td><span class="badge badge-num">Numerical</span></td>
+          <td>Ratio</td>
+          <td><span class="badge badge-disc">Discrete</span></td>
+          <td>Total runs off a delivery; true zero and meaningful ratios (6 runs = 2× 3 runs).</td>
+        </tr>
+        <tr>
+          <td><strong>is_wicket</strong></td>
+          <td><span class="badge badge-num">Numerical</span></td>
+          <td>Nominal</td>
+          <td><span class="badge badge-disc">Discrete</span></td>
+          <td>Binary (0/1) indicator — functions as a categorical flag, not a quantity.</td>
+        </tr>
+        <tr>
+          <td><strong>dismissal_kind</strong></td>
+          <td><span class="badge badge-cat">Categorical</span></td>
+          <td>Nominal</td>
+          <td>—</td>
+          <td>Type of dismissal (caught, bowled, etc.) — unordered labels.</td>
+        </tr>
+        <tr>
+          <td><strong>player_dismissed</strong></td>
+          <td><span class="badge badge-cat">Categorical</span></td>
+          <td>Nominal</td>
+          <td>—</td>
+          <td>Name of dismissed player — nominal identifier, no numeric meaning.</td>
+        </tr>
+        <tr>
+          <td><strong>fielder</strong></td>
+          <td><span class="badge badge-cat">Categorical</span></td>
+          <td>Nominal</td>
+          <td>—</td>
+          <td>Fielder's name involved in dismissal — nominal label.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- VISUALIZATIONS -->
+<section id="viz" class="viz-section">
+  <div class="section-inner">
+    <div class="section-label">Activity 2 — Task 2</div>
+    <div class="section-title">Data Visualizations</div>
+    <div class="section-divider"></div>
+    <p class="section-desc">
+      The following plots were chosen to best represent the distribution and relationships within the IPL dataset.
+      Each visualization includes the reasoning for selection and interpretation of trends observed.
+    </p>
+    <div class="viz-grid">
+
+      <div class="viz-card">
+        <div class="viz-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1a2a4a" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <span>Bar Chart — embed your chart here</span>
+        </div>
+        <div class="viz-body">
+          <div class="viz-type">Bar Chart</div>
+          <div class="viz-title">Total Runs by Batting Team</div>
+          <div class="viz-reason">📌 <em>Why this plot?</em> A bar chart is ideal for comparing a numerical value (total runs) across categorical groups (teams). It makes cross-team comparison straightforward and intuitive.</div>
+          <div class="viz-interp"><strong>Interpretation:</strong> Teams like Mumbai Indians and Chennai Super Kings consistently score higher total runs, reflecting their strong batting line-ups and frequent finals appearances across IPL seasons.</div>
+        </div>
+      </div>
+
+      <div class="viz-card">
+        <div class="viz-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1a2a4a" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>
+          <span>Pie Chart — embed your chart here</span>
+        </div>
+        <div class="viz-body">
+          <div class="viz-type">Pie / Donut Chart</div>
+          <div class="viz-title">Distribution of Dismissal Types</div>
+          <div class="viz-reason">📌 <em>Why this plot?</em> A pie chart effectively shows part-to-whole relationships. Since dismissal_kind is a nominal categorical variable with a finite set of types, it shows the proportion of each dismissal mode.</div>
+          <div class="viz-interp"><strong>Interpretation:</strong> "Caught" is the most common mode of dismissal, accounting for over 50% of wickets, followed by "bowled." Run-outs and stumpings are comparatively rare.</div>
+        </div>
+      </div>
+
+      <div class="viz-card">
+        <div class="viz-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1a2a4a" stroke-width="1.5"><polyline points="3 17 9 11 13 15 21 7"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+          <span>Line Chart — embed your chart here</span>
+        </div>
+        <div class="viz-body">
+          <div class="viz-type">Line Chart</div>
+          <div class="viz-title">Average Runs per Over (Run Rate Progression)</div>
+          <div class="viz-reason">📌 <em>Why this plot?</em> A line chart is best suited for showing trends over a sequential variable. Since "over" is an ordered interval variable, plotting average runs per over reveals scoring patterns across a match.</div>
+          <div class="viz-interp"><strong>Interpretation:</strong> Run rates are highest in the powerplay (overs 1–6) and the death overs (17–20), with a dip in the middle overs.</div>
+        </div>
+      </div>
+
+      <div class="viz-card">
+        <div class="viz-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1a2a4a" stroke-width="1.5"><rect x="3" y="12" width="4" height="9"/><rect x="10" y="7" width="4" height="14"/><rect x="17" y="3" width="4" height="18"/></svg>
+          <span>Histogram — embed your chart here</span>
+        </div>
+        <div class="viz-body">
+          <div class="viz-type">Histogram</div>
+          <div class="viz-title">Distribution of Batsman Runs per Delivery</div>
+          <div class="viz-reason">📌 <em>Why this plot?</em> A histogram is appropriate for a discrete numerical variable like batsman_runs to show its frequency distribution.</div>
+          <div class="viz-interp"><strong>Interpretation:</strong> The distribution is heavily right-skewed — dot balls (0 runs) are most frequent, followed by singles. Boundaries (4s and 6s) occur far less often.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY 3 -->
+<section id="activity3" style="background:var(--white);">
+  <div class="section-inner">
+    <div class="section-label">Activity 3</div>
+    <div class="section-title">Statistical Analysis — IPL Dataset</div>
+    <div class="section-divider"></div>
+    <p class="section-desc">
+      A structured, multi-task statistical analysis of the IPL Ball-by-Ball Dataset (2008–2024) performed in Google Sheets.
+      The workbook comprises 5 sheets covering raw data, central tendency, categorical association, scatter plots, and correlation analysis.
+    </p>
+    <div class="dataset-meta" style="margin-top:28px;">
+      <div class="meta-card"><div class="num">2,00,000+</div><div class="lbl">Deliveries (Rows)</div></div>
+      <div class="meta-card"><div class="num">21</div><div class="lbl">Columns</div></div>
+      <div class="meta-card"><div class="num">6</div><div class="lbl">Categorical Variables</div></div>
+      <div class="meta-card"><div class="num">8+</div><div class="lbl">Numerical Variables</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px;">
+      <div style="background:var(--gray);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+        <div style="background:var(--navy);padding:14px 20px;display:flex;align-items:center;gap:12px;">
+          <div style="width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:0.85rem;flex-shrink:0;">T1</div>
+          <div>
+            <div style="color:var(--gold);font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Sheet 2</div>
+            <div style="color:#fff;font-size:0.95rem;font-weight:600;">Central Tendency &amp; Dispersion</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px;">
+          <p style="font-size:0.85rem;color:var(--subtext);line-height:1.7;margin-bottom:12px;">Computed <strong>Mean, Median, and Mode</strong> for key numerical variables. Measures of dispersion including variance and standard deviation were calculated. A bar chart visualizes central tendency values side-by-side.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span class="badge" style="background:#e8f0fe;color:#3a5bd9;">Mean</span>
+            <span class="badge" style="background:#e8f0fe;color:#3a5bd9;">Median</span>
+            <span class="badge" style="background:#e8f0fe;color:#3a5bd9;">Mode</span>
+            <span class="badge" style="background:#e6f4ea;color:#2d7a3a;">Std Deviation</span>
+            <span class="badge" style="background:#e6f4ea;color:#2d7a3a;">Bar Chart</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--gray);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+        <div style="background:var(--navy);padding:14px 20px;display:flex;align-items:center;gap:12px;">
+          <div style="width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:0.85rem;flex-shrink:0;">T2</div>
+          <div>
+            <div style="color:var(--gold);font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Sheet 3</div>
+            <div style="color:#fff;font-size:0.95rem;font-weight:600;">Categorical Association</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px;">
+          <p style="font-size:0.85rem;color:var(--subtext);line-height:1.7;margin-bottom:12px;">Explored the relationship between <strong>Batting Team</strong> and <strong>Dismissal Kind</strong> using a 100% Stacked Bar Chart to show proportional distribution of dismissal types across teams.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span class="badge" style="background:#fef3e2;color:#b06000;">Batting Team</span>
+            <span class="badge" style="background:#fef3e2;color:#b06000;">Dismissal Kind</span>
+            <span class="badge" style="background:#e6f4ea;color:#2d7a3a;">100% Stacked Bar</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--gray);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+        <div style="background:var(--navy);padding:14px 20px;display:flex;align-items:center;gap:12px;">
+          <div style="width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:0.85rem;flex-shrink:0;">T3</div>
+          <div>
+            <div style="color:var(--gold);font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Sheet 4</div>
+            <div style="color:#fff;font-size:0.95rem;font-weight:600;">Scatter Plot</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px;">
+          <p style="font-size:0.85rem;color:var(--subtext);line-height:1.7;margin-bottom:12px;">Plotted <em>Runs off Bat</em> vs <em>Extra Runs per Over</em>. The scatter revealed a largely independent distribution, suggesting extras are not strongly tied to batting aggression.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span class="badge" style="background:#fce8f3;color:#9c2a6e;">batsman_runs</span>
+            <span class="badge" style="background:#fce8f3;color:#9c2a6e;">extra_runs</span>
+            <span class="badge" style="background:#e6f4ea;color:#2d7a3a;">Scatter Plot</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--gray);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+        <div style="background:var(--navy);padding:14px 20px;display:flex;align-items:center;gap:12px;">
+          <div style="width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:0.85rem;flex-shrink:0;">T4</div>
+          <div>
+            <div style="color:var(--gold);font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Sheet 5</div>
+            <div style="color:#fff;font-size:0.95rem;font-weight:600;">Covariance &amp; Correlation</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px;">
+          <p style="font-size:0.85rem;color:var(--subtext);line-height:1.7;margin-bottom:12px;">Calculated <strong>Covariance</strong>, <strong>Pearson's r</strong>, and <strong>R²</strong> between numerical variable pairs and interpreted the strength and direction of linear relationships.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span class="badge" style="background:#e8f0fe;color:#3a5bd9;">Covariance</span>
+            <span class="badge" style="background:#e8f0fe;color:#3a5bd9;">Pearson r</span>
+            <span class="badge" style="background:#e8f0fe;color:#3a5bd9;">R²</span>
+            <span class="badge" style="background:#e6f4ea;color:#2d7a3a;">Interpretation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="source-box" style="margin-top:28px;">
+      <div class="source-icon">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      </div>
+      <div>
+        <a href="https://docs.google.com/spreadsheets/d/1UqDDPIR1qWvprj2cQS6OAJUC2IgZi2VU/edit?usp=sharing" target="_blank">Activity3_IPL_Analysis — Google Spreadsheet</a>
+        <p>IPL Ball-by-Ball Data (2008–2024) · 5 Sheets · Statistical Analysis · View-only access</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY 5 -->
+<section id="activity5" style="background:var(--gray);">
+  <div class="section-inner">
+    <div class="section-label">Extra Activity 5 · Week 6</div>
+    <div class="section-title">Discrete Random Variable Modelling</div>
+    <div class="section-divider"></div>
+    <p class="section-desc">
+      The IPL Ball-by-Ball dataset was modelled using a <strong>Poisson Distribution</strong> to represent
+      the number of events (e.g. wickets, boundaries, extras) occurring per over.
+    </p>
+    <div style="background:var(--white);border-radius:12px;padding:28px;margin-top:28px;box-shadow:0 2px 10px rgba(0,0,0,0.06);border-left:4px solid var(--gold);">
+      <h4 style="color:var(--navy);font-size:1rem;font-weight:700;margin-bottom:10px;">Why Poisson Distribution?</h4>
+      <p style="font-size:0.88rem;color:var(--subtext);line-height:1.8;">The Poisson distribution models the number of times an event occurs in a fixed interval given that events occur independently at a constant average rate (λ). In cricket, occurrences like <strong>wickets per over</strong> satisfy these conditions — making Poisson an appropriate model to fit and verify against real IPL data.</p>
+      <div style="margin-top:16px;background:var(--gray);border-radius:8px;padding:14px 18px;font-family:monospace;font-size:0.9rem;color:var(--navy);">
+        P(X = k) = (λᵏ · e⁻λ) / k! &nbsp;&nbsp;|&nbsp;&nbsp; where λ = average rate, k = number of events
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:28px;">
+      <div style="background:var(--white);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="width:28px;height:28px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;font-size:0.8rem;flex-shrink:0;">1</div>
+          <h4 style="color:var(--navy);font-size:0.9rem;font-weight:700;">Data Collection & Variable Selection</h4>
+        </div>
+        <p style="font-size:0.84rem;color:var(--subtext);line-height:1.7;">The variable <strong>wickets per over</strong> was selected. Data was aggregated per over across all matches to get the observed frequency distribution of wicket counts per over.</p>
+      </div>
+      <div style="background:var(--white);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="width:28px;height:28px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;font-size:0.8rem;flex-shrink:0;">2</div>
+          <h4 style="color:var(--navy);font-size:0.9rem;font-weight:700;">Estimating λ (Mean Rate)</h4>
+        </div>
+        <p style="font-size:0.84rem;color:var(--subtext);line-height:1.7;">The Poisson parameter <strong>λ</strong> was estimated as the sample mean of wickets per over from the observed data, used to compute expected frequencies.</p>
+      </div>
+      <div style="background:var(--white);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="width:28px;height:28px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;font-size:0.8rem;flex-shrink:0;">3</div>
+          <h4 style="color:var(--navy);font-size:0.9rem;font-weight:700;">Computing Expected Frequencies</h4>
+        </div>
+        <p style="font-size:0.84rem;color:var(--subtext);line-height:1.7;">Using the Poisson formula, expected probabilities were calculated for each k and multiplied by total observations to get <strong>expected frequencies</strong>.</p>
+      </div>
+      <div style="background:var(--white);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="width:28px;height:28px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;font-size:0.8rem;flex-shrink:0;">4</div>
+          <h4 style="color:var(--navy);font-size:0.9rem;font-weight:700;">Verification & Interpretation</h4>
+        </div>
+        <p style="font-size:0.84rem;color:var(--subtext);line-height:1.7;">Observed vs expected frequencies were tabulated and plotted. The model was verified by checking that <strong>mean ≈ variance</strong>, a key property of the Poisson distribution.</p>
+      </div>
+    </div>
+    <div style="margin-top:28px;">
+      <h4 style="color:var(--navy);font-size:0.95rem;font-weight:700;margin-bottom:14px;">Observed vs Expected Frequency Table</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Wickets per Over (k)</th>
+            <th>Observed Frequency</th>
+            <th>Expected Frequency</th>
+            <th>Poisson P(X=k)</th>
+            <th>Deviation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>1693</td><td>1692.93</td><td>0.07</td><td><span class="badge" style="background:#e6f4ea;color:#2d7a3a;">0.00%</span></td></tr>
+          <tr><td>1</td><td>1232</td><td>1229.58</td><td>2.42</td><td><span class="badge" style="background:#e6f4ea;color:#2d7a3a;">0.20%</span></td></tr>
+          <tr><td>2</td><td>441</td><td>446.52</td><td>-5.52</td><td><span class="badge" style="background:#fef3e2;color:#b06000;">-1.24%</span></td></tr>
+          <tr><td>3</td><td>108</td><td>108.10</td><td>-0.10</td><td><span class="badge" style="background:#fef3e2;color:#b06000;">-0.09%</span></td></tr>
+          <tr><td>4</td><td>26</td><td>19.63</td><td>6.37</td><td><span class="badge" style="background:#fce8f3;color:#9c2a6e;">32.45%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="links-grid" style="margin-top:28px;">
+      <div class="link-card">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <div>
+          <h4>Google Spreadsheet — Dataset & Calculations</h4>
+          <p>Poisson modelling data, observed vs expected frequencies · View-only</p>
+          <a href="https://docs.google.com/spreadsheets/d/17H_j324iROI2P4qUBoIaPCh8v6CI6r_e/edit?usp=sharing" target="_blank">Open Spreadsheet →</a>
+        </div>
+      </div>
+      <div class="link-card">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+        </div>
+        <div>
+          <h4>Google Doc — Calculations & Report</h4>
+          <p>Step-by-step Poisson distribution workings and interpretation · View-only</p>
+          <a href="https://docs.google.com/document/d/1078PR7TGz6JiC3L00gPAVLmb3iBmdVUn/edit?usp=sharing" target="_blank">Open Google Doc →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA LINKS -->
+<section id="links">
+  <div class="section-inner">
+    <div class="section-label">Activity 2.2</div>
+    <div class="section-title">Data Links</div>
+    <div class="section-divider"></div>
+    <p class="section-desc">
+      The dataset has been transferred to Google Spreadsheet as required. Access the raw data and the analysis spreadsheet using the links below.
+    </p>
+    <div class="links-grid">
+      <div class="link-card">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <div>
+          <h4>Raw Dataset — Google Spreadsheet</h4>
+          <p>IPL Ball-by-Ball data transferred from Kaggle source (view-only access)</p>
+          <a href="#" target="_blank">Open Spreadsheet →</a>
+        </div>
+      </div>
+      <div class="link-card">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14zm0-16H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"/></svg>
+        </div>
+        <div>
+          <h4>Analysis Spreadsheet</h4>
+          <p>Variable classification, plots, and statistical summary (view-only access)</p>
+          <a href="#" target="_blank">Open Analysis →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Statistics 1 · Term 1 · <span>Neel Halani</span> · IIT Madras BS in Data Science &amp; Applications</p>
+</footer>
+
+</body>
+</html>
